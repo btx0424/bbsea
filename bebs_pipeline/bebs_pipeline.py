@@ -33,7 +33,7 @@ def main(config):
     scene_graph = get_scene_graph(env)
     print(scene_graph)
     # propose task
-    task_desc_list = propose_task(scene_graph)
+    task_desc_list = propose_task(scene_graph)[:2]
     print(task_desc_list)
     task_desc_list = make_output_dirs_and_filter_task_desc_list(config, task_desc_list)
     save_str_to_file(f'scene_graph:\n{scene_graph}\n\proposed_tasks:\n{task_desc_list}', f'{config.log_path}/{config.scene_id}/proposed_tasks_{int(time.time())}.txt')
