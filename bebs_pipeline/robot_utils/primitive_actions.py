@@ -280,6 +280,7 @@ class Pick():
     def execute(self, env, info={"log": "", "subtrajectories": []},):
         sub_episode = []
         for i, ee_action in enumerate(self.ee_action_sequence):
+            print(f"\t execute step {i}:", ee_action)
             trajectory_step = ee_action.execute_bebs(env, info=info)
             sub_episode.append(trajectory_step)
        

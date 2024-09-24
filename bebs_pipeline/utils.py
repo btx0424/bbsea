@@ -32,7 +32,7 @@ import requests
 from retry import retry
 import openai
 openai.api_key = os.getenv("OPENAI_API_KEY")
-# openai.api_base = os.getenv("OPENAI_API_ENDPOINT")
+openai.api_base = os.getenv("OPENAI_API_ENDPOINT")
 # openai.api_type = os.getenv("OPENAI_API_TYPE")  #'azure'
 # openai.api_version = os.getenv("OPENAI_API_VERSION")  # '2023-05-15' # this may change in the future
 
@@ -80,12 +80,18 @@ def save_str_to_file(content, file_name):
 
 @retry(tries=5, delay=1, backoff=2, max_delay=120)
 def call_openai_api(prompt, temperature=0.2):
-    messages=[{"role": "user", "content": prompt}]
-    response = openai.ChatCompletion.create(
-        engine='gpt-4',
-        messages=messages,
-        temperature=temperature,
-    )
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": openai.api_key,
+    }
+    payload = {
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": temperature,
+        "max_tokens": 4000
+    }
+    response =  requests.post(openai.api_base, headers=headers, json=payload)
+    response.raise_for_status() 
+    response=response.json()
     return response
 
 def get_link_point_cloud(env, link_path):
