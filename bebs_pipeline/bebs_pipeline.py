@@ -69,7 +69,7 @@ def main(config):
                 # execute primitive actions
                 for subtask_actions in primitive_action_list:
                     for primitive_action in subtask_actions:
-                        print(f"Execute primitive {primitive_action.__class__.__name__} {primitive_action.obj_name}")
+                        print(f"Execute primitive {primitive_action.__class__.__name__}.")
                         sub_episode = primitive_action.do(env)
                         episode.extend(sub_episode)
                         scene_graph = get_scene_graph(env)
